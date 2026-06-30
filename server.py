@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import anthropic
 import requests
 import datetime
 from calendar_tool import book_meeting, check_availability
 import os
 app = Flask(__name__)
+CORS(app)
 
 client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 
