@@ -1,11 +1,27 @@
 import datetime
+import os
+import json
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
-import os
+from zoneinfo import ZoneInfo
 
 SCOPES = ['https://www.googleapis.com/auth/calendar']
+
+def write_credentials_from_env():
+    creds_json = os.environ.get("GOOGLE_CREDENTIALS_JSON")
+    token_json = os.environ.get("GOOGLE_TOKEN_JSON")
+
+    if creds_json and not os.path.exists("googlecredentials.json"):
+        with open("googlecredentials.json", "w") as f:
+            f.write(creds_json)
+
+    if token_json and not os.path.exists("token.json"):
+        with open("token.json", "w") as f:
+            f.write(token_json)
+
+write_credentials_from_env()
 
 def get_calendar_service():
     creds = None
